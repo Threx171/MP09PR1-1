@@ -1,9 +1,18 @@
 package com.project;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.SecureRandom;
+import java.security.Security;
 
 public class Main extends Application {
 
@@ -25,10 +34,25 @@ public class Main extends Application {
         Scene scene = new Scene(UtilsViews.parentContainer);
         
         stage.setScene(scene);
-        stage.setTitle("Animació entre vistes");
+        stage.setTitle("Encryption tool");
         stage.setMinWidth(windowWidth);
         stage.setMinHeight(windowHeight);
         stage.show();
+
+        Security.addProvider(new BouncyCastleProvider());
+
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
+        generator.initialize(2048, new SecureRandom());
+        KeyPair pair = generator.generateKeyPair();
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/resources/data/keys/public_alex.key"))) {
+            oos.writeObject(pair.getPublic());
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/resources/data/keys/private_alex.key"))) {
+            oos.writeObject(pair.getPrivate());
+        }
+        
 
         // Add icon only if not Mac
         if (!System.getProperty("os.name").contains("Mac")) {

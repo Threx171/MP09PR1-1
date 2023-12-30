@@ -23,6 +23,11 @@
         </plugins>
     </build>
     <dependencies>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpg-jdk15on</artifactId>
+            <version>1.69</version> 
+        </dependency>
         <!-- Dependency for SQLite -->
         <dependency>
             <groupId>org.xerial</groupId>

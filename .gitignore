@@ -32,3 +32,5 @@ node_modules
 
 target/classes
 target/maven-status
+
+.vscode
